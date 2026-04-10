@@ -43,6 +43,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-three
+            name: app-two
             port:
               number: 80
