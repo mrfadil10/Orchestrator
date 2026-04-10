@@ -11,8 +11,8 @@ spec:
       app: app-three
   template:
     metadata:
-    labels:
-      app: app-three
+      labels:
+        app: app-three
     spec:
       containers:
       - name: app-three
