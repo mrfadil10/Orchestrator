@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iot-argocd-development
+spec:
+  project: development
+  source:
+    repoURL: 'https://github.com/mrfadil10/test_argo.git'
+    targetRevision: HEAD
+    path: manifests
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncpolicy:
+    automated:
+      prune: true
+      selfHeal: true
