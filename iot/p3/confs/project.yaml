@@ -1,4 +1,4 @@
-apiVersion: argoproj.io/v1alpha
+apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: development
@@ -7,7 +7,7 @@ metadata:
 spec:
   description: Our ArgoCD Project to deploy our app locally
   sourceRepos:
-    - "https://github.com/sungyongcho/*"
+    - "https://github.com/mrfadil10/*"
   destinations:
     - namespace: dev
       server: https://kubernetes.default.svc
