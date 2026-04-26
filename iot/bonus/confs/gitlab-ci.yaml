@@ -1,0 +1,11 @@
+stages:
+  - test
+
+check_yaml:
+  stage: test
+  image: alpine:latest
+  script:
+    - echo "Checking Kubernetes YAML files for syntax errors..."
+    - apk add --no-cache yamllint
+    - yamllint .
+    - echo "All checks passed! Argo CD will sync these changes shortly."

@@ -1,0 +1,78 @@
+global:
+  hosts:
+    domain: k3d.local
+    https: false
+  ingress:
+    enabled: true
+    class: traefik
+    configureCertmanager: false
+    tls:
+      enabled: false
+  appConfig:
+    enableUsagePing: false
+    enableSeatLink: false
+  time_zone: UTC
+
+installCertmanager: false
+nginx-ingress:
+  enabled: false
+prometheus:
+  install: false
+gitlab-runner:
+  install: true # Pipeline execution is ON!
+postgresql:
+  install: true
+  metrics:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+redis:
+  install: true
+  metrics:
+    enabled: false
+  master:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+minio:
+  install: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+gitlab:
+  webservice:
+    minReplicas: 1
+    maxReplicas: 1
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+  sidekiq:
+    minReplicas: 1
+    maxReplicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  gitaly:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  gitlab-shell:
+    minReplicas: 1
+    maxReplicas: 1
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+registry:
+  enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
