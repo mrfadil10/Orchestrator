@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if [ ! -f "../confs/gitlab-ci.yml" ]; then # mybe is a hidden file
+if [ ! -f "../confs/gitlab-ci.yaml" ]; then # mybe is a hidden file
   echo "❌ Error: gitlab-ci.yml not found!"
   echo "Please make sure your pipeline file is in this same folder before running the script."
   exit 1
