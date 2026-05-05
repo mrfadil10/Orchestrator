@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Check if the user provided an IP address
 if [ -z "$1" ]; then
   echo "❌ Error: Please provide your Droplet IP address."
   echo "Usage: sudo ./02-local-dns.sh <DROPLET_IP>"
@@ -9,11 +8,10 @@ fi
 
 DROPLET_IP=$1
 
-echo "🌐 Updating /etc/hosts with Droplet IP: $DROPLET_IP..."
+echo "Updating /etc/hosts with Droplet IP: $DROPLET_IP..."
 
-# Append the routes to the hosts file
 echo "" >> /etc/hosts
 echo "# DigitalOcean IoT GitLab" >> /etc/hosts
 echo "$DROPLET_IP    k3d.local gitlab.k3d.local" >> /etc/hosts
 
-echo "✅ Local DNS updated! You can now visit http://gitlab.k3d.local"
+echo "\033[32mLocal DNS updated! You can now visit http://gitlab.k3d.local\033[0m"
