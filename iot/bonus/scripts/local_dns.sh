@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]; then
   echo "❌ Error: Please provide your Droplet IP address."
-  echo "Usage: sudo ./02-local-dns.sh <DROPLET_IP>"
+  echo "Usage: sudo ./local_dns.sh <DROPLET_IP>"
   exit 1
 fi
 

@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]; then
   echo "❌ Error: Please provide your GitLab root password."
-  echo "Usage: ./03-push-repo.sh <ROOT_PASSWORD>"
+  echo "Usage: ./repo_push.sh <ROOT_PASSWORD>"
   exit 1
 fi
 
