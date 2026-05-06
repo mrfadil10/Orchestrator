@@ -1,36 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-three
-  labels:
-    app: app-three
+  name: app3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-three
+      app: app3
   template:
     metadata:
       labels:
-        app: app-three
+        app: app3
     spec:
       containers:
-      - name: app-three
-        image: paulbouwer/hello-kubernetes:1.10
+      - name: app3
+        image: nginx
         ports:
-        - containerPort: 8080
-        env:
-        - name: MESSAGE
-          value: "Hello from app3"
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html
+        configMap:
+          name: app3-html
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-three
+  name: app3-service
 spec:
-  type: ClusterIP
   selector:
-    app: app-three
+    app: app3
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: 80

@@ -1,0 +1,13 @@
+# Vagrant
+.vagrant/
+
+# Mac specific
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+
+# Shared folder contents
+p1/shared/
+p2/sharedd

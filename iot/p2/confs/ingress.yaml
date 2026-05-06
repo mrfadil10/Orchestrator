@@ -3,17 +3,9 @@ kind: Ingress
 metadata:
   name: iot-ingress
   annotations:
-    # K3s uses Traefik as its default Ingress Controller
-    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  # The default Fallback (App 3)
-  defaultBackend:
-    service:
-      name: app-three
-      port:
-        number: 80
-
-  # The Specific Rules (App 1 and App 2)
+  ingressClassName: traefik
   rules:
   - host: app1.com
     http:
@@ -22,10 +14,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-one
+            name: app1-service
             port:
               number: 80
-
   - host: app2.com
     http:
       paths:
@@ -33,16 +24,15 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-two
+            name: app2-service
             port:
               number: 80
-
   - http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: app-two
+            name: app3-service
             port:
               number: 80
