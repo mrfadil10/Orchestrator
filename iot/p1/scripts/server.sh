@@ -3,7 +3,8 @@
 # Install K3s on the master node
 apt update
 # apt install curl -y
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode 644 --node-ip=192.168.56.110 --bind-address=192.168.56.110 --advertise-address=192.168.56.110 --flannel-iface=eth1" sh -
+#--bind-address=192.168.56.110 --advertise-address=192.168.56.110 --flannel-iface=eth1
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode 644 --node-ip=192.168.56.110" sh -
 
 # Wait for K3s to be ready
 sleep 10
