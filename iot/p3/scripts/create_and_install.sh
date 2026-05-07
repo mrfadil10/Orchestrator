@@ -8,7 +8,7 @@ echo "created namespaces, waiting..."
 sleep 3
 
 echo "installing argocd"
-kubectl apply -n argocd -f ../confs/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 sleep 3
 
 kubectl wait -n argocd --for=condition=Ready pods --all
