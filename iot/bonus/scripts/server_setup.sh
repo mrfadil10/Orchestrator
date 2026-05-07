@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting Part 1: Droplet Setup..."
+echo "Droplet Setup..."
 
 echo "Installing Docker (Required for K3d)..."
 if ! command -v docker &> /dev/null; then
@@ -45,21 +45,19 @@ fi
 # ==========================================
 
 echo "Creating K3d cluster..."
-# Note: If docker was just installed, you might need to run this script as root/sudo
 k3d cluster create iot-cluster -p "80:80@loadbalancer" -p "443:443@loadbalancer"
 
 echo "Adding GitLab Helm Repository..."
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
 
-# Ensure gitlab-values.yaml is in the same directory before running!
 if [ ! -f "../confs/gitlab-values.yaml" ]; then
   echo "❌ Error: gitlab-values.yaml not found!"
   echo "Please make sure your values file is in this folder."
   exit 1
 fi
 
-echo "⚙️ Installing GitLab via Helm (this will take a few minutes)..."
+echo "Installing GitLab via Helm (this will take a few minutes)..."
 helm upgrade --install my-gitlab gitlab/gitlab -f ../confs/gitlab-values.yaml --namespace gitlab --create-namespace
 
 echo "🔑 Waiting for GitLab to generate the root password..."
