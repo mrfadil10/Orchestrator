@@ -1,7 +1,5 @@
 Vagrant.configure("2") do |conf|
-    # conf.vm.box = "bento/debian-12"
     conf.vm.box = "bento/debian-12"
-    conf.vm.box_version = "202309.08.0"
 
     conf.vm.define "mfadilS" do |server|
         server.vm.hostname = "mfadilS"
