@@ -1,6 +1,6 @@
 # Vagrant
 .vagrant/
-
+iot/p1/shared/token
 # Mac specific
 .DS_Store
 
