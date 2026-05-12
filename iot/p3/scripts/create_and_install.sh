@@ -37,3 +37,4 @@ echo "installing application to argocd"
 kubectl apply -f ../confs/app.yaml -n argocd
 echo "installed app to argocd"
 sleep 3
+

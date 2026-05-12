@@ -68,4 +68,7 @@ echo "Your GitLab root password is:"
 kubectl get secret my-gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 --decode ; echo ""
 echo "========================================"
 
+echo "📦 Installing Argo CD..."
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
 echo "\033[32mDroplet setup complete!\033[0m"

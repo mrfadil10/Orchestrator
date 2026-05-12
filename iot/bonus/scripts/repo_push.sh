@@ -37,7 +37,7 @@ echo "\033[32mProject '$PROJECT_NAME' is ready on the server!\033[0m"
 
 
 echo "Initializing Git and pushing to private GitLab..."
-rm -rf .git # Clean up just in case you ran this before
+rm -rf .git
 git init
 git add .
 git commit -m "Initial commit with Kubernetes manifests and CI/CD pipeline"
@@ -50,3 +50,6 @@ git remote add origin "$GIT_PUSH_URL"
 git push -u origin main --force
 
 echo "\033[32mSuccess! Your code is now live at: http://gitlab.k3d.local/root/$PROJECT_NAME\033[0m"
+
+echo "Telling Argo CD to track this new repository..."
+kubectl apply -f ../confs/app.yaml -n argocd
