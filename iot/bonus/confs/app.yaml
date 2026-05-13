@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: 'http://gitlab.k3d.local/root/iot-bonus.git'
-    targetRevision: HEAD
-    path: dev
+    targetRevision: main
+    path: dev  # <--- THIS IS CRITICAL
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dev

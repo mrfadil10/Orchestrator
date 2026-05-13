@@ -47,6 +47,10 @@ fi
 echo "Creating K3d cluster..."
 k3d cluster create iot-cluster -p "80:80@loadbalancer" -p "443:443@loadbalancer"
 
+
+kubectl create namespace argocd
+kubectl create namespace dev
+
 echo "Adding GitLab Helm Repository..."
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
@@ -69,6 +73,20 @@ kubectl get secret my-gitlab-gitlab-initial-root-password -n gitlab -o jsonpath=
 echo "========================================"
 
 echo "📦 Installing Argo CD..."
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl create -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+echo "🔧 Patching Argo CD DNS to recognize gitlab.k3d.local..."
+
+# Wait for Traefik to be ready before grabbing its IP
+sleep 10
+TRAEFIK_IP=$(kubectl get svc traefik -n kube-system -o jsonpath='{.spec.clusterIP}')
+
+# Inject the hostAliases into the three main Argo CD deployments
+kubectl patch deploy argocd-repo-server -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
+kubectl patch deploy argocd-server -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
+kubectl patch statefulset argocd-application-controller -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
+
+echo "Adding GitLab to Droplet hosts file..."
+echo "127.0.0.1 gitlab.k3d.local" | sudo tee -a /etc/hosts
 
 echo "\033[32mDroplet setup complete!\033[0m"
