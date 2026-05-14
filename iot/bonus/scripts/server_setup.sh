@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Droplet Setup..."
 
-echo "Installing Docker (Required for K3d)..."
+echo "Installing Docker..."
 if ! command -v docker &> /dev/null; then
     curl -fsSL https://get.docker.com -o get-docker.sh
     sh get-docker.sh
@@ -47,7 +47,6 @@ fi
 echo "Creating K3d cluster..."
 k3d cluster create iot-cluster -p "80:80@loadbalancer" -p "443:443@loadbalancer"
 
-
 kubectl create namespace argocd
 kubectl create namespace dev
 
@@ -72,12 +71,11 @@ echo "Your GitLab root password is:"
 kubectl get secret my-gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 --decode ; echo ""
 echo "========================================"
 
-echo "📦 Installing Argo CD..."
+echo "Installing Argo CD..."
 kubectl create -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-echo "🔧 Patching Argo CD DNS to recognize gitlab.k3d.local..."
+echo "Patching Argo CD DNS to recognize gitlab.k3d.local..."
 
-# Wait for Traefik to be ready before grabbing its IP
 sleep 10
 TRAEFIK_IP=$(kubectl get svc traefik -n kube-system -o jsonpath='{.spec.clusterIP}')
 

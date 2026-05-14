@@ -5,7 +5,7 @@ metadata:
   labels:
     app: iot-argocd
 spec:
-  description: Our ArgoCD Project to deploy our app locally
+  description: Our ArgoCD Project to deploy our app
   sourceRepos:
     - "https://github.com/mrfadil10/*"
   destinations:
