@@ -19,7 +19,7 @@ nginx-ingress:
 prometheus:
   install: false
 gitlab-runner:
-  install: true # Pipeline execution is ON!
+  install: true
 postgresql:
   install: true
   metrics:
