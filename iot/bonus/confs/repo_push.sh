@@ -36,7 +36,7 @@ curl -s --request POST "$GITLAB_URL/api/v4/projects" \
 
 echo -e "\033[32mProject '$PROJECT_NAME' is ready on the server!\033[0m"
 
-echo "📦 Initializing Git and pushing to private GitLab..."
+echo "Initializing Git and pushing to private GitLab..."
 rm -rf .git
 git init
 git config --global user.name "IoT_Admin"
@@ -44,7 +44,6 @@ git config --global user.email "admin@k3d.local"
 git add .
 git commit -m "Initial commit with Kubernetes manifests and CI/CD pipeline"
 
-# Force branch name to main to match the Argo CD config
 git branch -M main
 
 GIT_PUSH_URL="http://root:${ROOT_PASSWORD}@gitlab.k3d.local/root/${PROJECT_NAME}.git"
@@ -54,5 +53,7 @@ git push -u origin main --force
 
 echo -e "\033[32mSuccess! Your code is now live at: http://gitlab.k3d.local/root/$PROJECT_NAME\033[0m"
 
-echo "🔄 Telling Argo CD to track this new repository..."
+echo "Telling Argo CD to track this new repository..."
 kubectl apply -f app.yaml -n argocd
+echo "getting argocd password..."
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
