@@ -13,7 +13,6 @@ echo "Updating /etc/hosts with Droplet IP: $DROPLET_IP..."
 echo "" >> /etc/hosts
 echo "# DigitalOcean IoT GitLab" >> /etc/hosts
 echo "$DROPLET_IP    k3d.local gitlab.k3d.local" >> /etc/hosts
-
 echo "$DROPLET_IP    app1.com" >> /etc/hosts
 
 echo "\033[32mLocal DNS updated! You can now visit http://gitlab.k3d.local\033[0m"
