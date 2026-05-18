@@ -5,7 +5,7 @@ metadata:
 spec:
   project: development
   source:
-    repoURL: 'https://github.com/mrfadil10/test_argo.git'
+    repoURL: 'https://github.com/mrfadil10/mfadil_config.git'
     targetRevision: main
     path: .
     directory:
