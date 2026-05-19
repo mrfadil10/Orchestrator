@@ -6,7 +6,5 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode 
 
 
 sleep 10
-
 kubectl apply -f /vagrant/confs
-
-echo "Server ready a jemi!!!"
+echo "Server ready"
