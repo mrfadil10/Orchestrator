@@ -19,8 +19,13 @@ nginx-ingress:
 prometheus:
   install: false
 gitlab-runner:
-  install: true
+  install: false
 postgresql:
+  image:
+    repository: bitnamilegacy/postgresql
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
   install: true
   metrics:
     enabled: false
@@ -29,6 +34,8 @@ postgresql:
       cpu: 100m
       memory: 256Mi
 redis:
+  image:
+    repository: bitnamilegacy/redis
   install: true
   metrics:
     enabled: false

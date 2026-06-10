@@ -61,7 +61,7 @@ if [ ! -f "../confs/gitlab-values.yaml" ]; then
 fi
 
 echo "Installing GitLab via Helm (this will take a few minutes)..."
-helm upgrade --install my-gitlab gitlab/gitlab -f ../confs/gitlab-values.yaml --namespace gitlab --create-namespace
+helm upgrade --install my-gitlab gitlab/gitlab --version 7.11.2 -f ../confs/gitlab-values.yaml --namespace gitlab --create-namespace
 
 echo "🔑 Waiting for GitLab to generate the root password..."
 sleep 15
@@ -72,17 +72,17 @@ kubectl get secret my-gitlab-gitlab-initial-root-password -n gitlab -o jsonpath=
 echo "========================================"
 
 echo "Installing Argo CD..."
-kubectl create -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -n argocd -f ../confs/install.yaml
 
 echo "Patching Argo CD DNS to recognize gitlab.k3d.local..."
 
 sleep 10
 TRAEFIK_IP=$(kubectl get svc traefik -n kube-system -o jsonpath='{.spec.clusterIP}')
 
-# Inject the hostAliases into the three main Argo CD deployments
-kubectl patch deploy argocd-repo-server -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
-kubectl patch deploy argocd-server -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
-kubectl patch statefulset argocd-application-controller -n argocd --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$TRAEFIK_IP\", \"hostnames\": [\"gitlab.k3d.local\"]}]}}}}"
+sed "s/TRAEFIK_IP_PLACEHOLDER/$TRAEFIK_IP/g" ../confs/install.yaml > argocd-install-ready.yaml
+
+kubectl apply -n argocd -f argocd-install-ready.yaml --server-side --force-conflicts
+kubectl apply -n argocd -f ../confs/ingress.yaml
 
 echo "Adding GitLab to Droplet hosts file..."
 echo "127.0.0.1 gitlab.k3d.local" | sudo tee -a /etc/hosts

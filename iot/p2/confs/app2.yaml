@@ -13,7 +13,7 @@ spec:
         app: app2
     spec:
       containers:
-      - name: app-two
+      - name: app2
         image: paulbouwer/hello-kubernetes:1.10
         env:
         - name: MESSAGE
