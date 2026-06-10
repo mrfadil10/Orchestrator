@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app1
-        image: paulbouwer/hello-kubernetes:1.10
+        image: wil42/playground:v1
         env:
         - name: MESSAGE
           value: "Hello from app1."
@@ -29,7 +29,7 @@ spec:
   ports:
     - #protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 8888
 
 ---
 
